@@ -1,0 +1,13 @@
+.back-btn {
+    background-color: #c0c5d2;
+}
+.next-btn {
+    background-color: #0f6abe;
+}
+
+.btn:hover {
+    background-color: #0c5498;
+}
+.back-btn.btn:hover {
+    background-color: #898d95;
+}
