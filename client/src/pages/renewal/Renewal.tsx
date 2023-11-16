@@ -1,9 +1,5 @@
-
 export default function Renewal() {
     return (
-        <>
-
-            <h1>Renewal</h1>
-        </>
+        <h1>Renewal</h1>
     )
 }

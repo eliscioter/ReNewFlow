@@ -1,14 +1,14 @@
-import { createBrowserRouter } from "react-router-dom";
-import DashBoard from "./pages/dashboard/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import Renewal from "./pages/renewal/Renewal";
+import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <DashBoard />,
+        element: <Dashboard />
     },
     {
         path: "/renewal",
-        element: <Renewal />,
+        element: <Renewal />
     }
-]);
+])
