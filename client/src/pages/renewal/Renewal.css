@@ -1,13 +1,20 @@
+.parent-bg {
+  background: linear-gradient(to bottom right, #0077b6, #0096c7, #00b4d8, white);
+}
+
 .back-btn {
-    background-color: #c0c5d2;
+  background-color: #c0c5d2;
 }
 .next-btn {
-    background-color: #0f6abe;
+  background-color: #003566;
 }
 
 .btn:hover {
-    background-color: #0c5498;
+  background-color: #0c5498;
 }
 .back-btn.btn:hover {
-    background-color: #898d95;
+  background-color: #898d95;
+}
+.RenewForm-Input {
+    max-width: 25rem;
 }

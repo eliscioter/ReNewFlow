@@ -1,7 +1,7 @@
 import Dashboard from "./pages/dashboard/Dashboard";
 import Renewal from "./pages/renewal/Renewal";
 import { createBrowserRouter } from "react-router-dom";
-import UploadPictures from "./pages/renewal/includes/UPloadPictures";
+import UploadPictures from "./pages/renewal/includes/UploadPictures";
 import Consent from "./pages/renewal/includes/Consent";
 
 export const router = createBrowserRouter([

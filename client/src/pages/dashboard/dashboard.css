@@ -15,3 +15,13 @@
 .pieCanvas {
   max-height: 350px;
 }
+
+.renewal-ref{
+  color: black;
+  text-decoration: none;
+}
+
+.renewal-ref:hover{
+  color: white;
+  text-decoration: none;
+}
