@@ -4,24 +4,22 @@ export default function UploadPictures() {
     const navigate = useNavigate();
 
   return (
-    <div className="container p-5">
-      <div className="border p-3">
+    <div className="parent-bg vh-100 p-5">
+      <div className="container mt-5 bg-light border rounded-4 p-3">
         <h4>Renewal Form</h4>
         <div className="container">
           <div className="row">
             <div className="col-6">
-              <div className="p-3 border">
+              <div className="p-3 border border-2 rounded-3">
                 <h4>Renewal Application</h4>
-
-                {/* //TODO: fix the radio button */}
                 <div className="form-check mb-3">
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="otherName"
+                    name="pcpe"
                     id="otherName1"
                   />
-                  <div className="form-floating">
+                  <div className="form-floating rounded-3">
                     <input
                       type="text"
                       className="form-control"
@@ -40,7 +38,7 @@ export default function UploadPictures() {
                     id="pcpe"
                   />
 
-                  <div className="form-floating">
+                  <div className="form-floating rounded-3">
                     <input
                       type="text"
                       className="form-control"
@@ -52,7 +50,7 @@ export default function UploadPictures() {
                 </div>
               </div>
 
-              <div className="form-floating my-3">
+              <div className="form-floating my-3 rounded-3">
                 <input
                   type="number"
                   className="form-control"
@@ -63,7 +61,7 @@ export default function UploadPictures() {
               </div>
               <div>
                 <div className="mb-3">
-                  <label className="form-label">
+                  <label className="form-label fw-semibold">
                     Title of Regional Attended Activities (at least 2 in the
                     last 3 years) with Certificates
                   </label>
@@ -79,13 +77,13 @@ export default function UploadPictures() {
                   </span>
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Receipt</label>
+                  <label className="form-label fw-semibold">Receipt</label>
                   <input className="form-control" type="file" id="receipt" />
                 </div>
               </div>
             </div>
             <div className="col-6">
-              <div className="form-floating mb-3">
+              <div className="form-floating mb-3 rounded-3">
                 <input
                   type="date"
                   className="form-control"
@@ -94,7 +92,7 @@ export default function UploadPictures() {
                 />
                 <label>Date of ID validity</label>
               </div>
-              <div className="form-floating mb-3">
+              <div className="form-floating mb-3 rounded-3">
                 <input
                   type="text"
                   className="form-control"
@@ -106,7 +104,7 @@ export default function UploadPictures() {
                 </label>
               </div>
               <div className="mb-3">
-                <label className="form-label">
+                <label className="form-label fw-semibold">
                   Title of National Attended Activities (at least 1 in the last
                   3 years) with Certificates
                 </label>
@@ -122,13 +120,13 @@ export default function UploadPictures() {
                 </span>
               </div>
               <div className="mb-3">
-                <label className="form-label">2x2 Picture</label>
+                <label className="form-label fw-semibold">2x2 Picture</label>
                 <input className="form-control" type="file" id="receipt" accept=".png, .jpeg, .jpg" />
               </div>
             </div>
               <div className="text-end mt-3 d-flex justify-content-between">
-                <button className="btn border back-btn" onClick={() => navigate("/renewal")}>Back</button>
-                <button className="btn border next-btn text-white" onClick={() => navigate("/renewal/consent")}>Next</button>
+                <button className="btn border back-btn fw-bold w-25" onClick={() => navigate("/renewal")}>Back</button>
+                <button className="btn border next-btn text-white fw-bold w-25" onClick={() => navigate("/renewal/consent")}>Next</button>
               </div>
           </div>
         </div>

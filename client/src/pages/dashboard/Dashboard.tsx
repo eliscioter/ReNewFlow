@@ -8,8 +8,11 @@ import { faPeopleGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import logo from "../../assets/CPECB-Logo.png";
 import { Chart } from "chart.js/auto";
+import { useNavigate } from "react-router";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const monthlyCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const monthlyChartRef = useRef<Chart<"bar"> | null>(null);
 
@@ -78,8 +81,16 @@ export default function Dashboard() {
       <div className="sidebar col-sm-2 text-center border-end">
         <img src={logo} className="logo img-fluid" />
         <div className="pt-5">
-          <button className="btn side-btn w-100 py-2 my-3 fs-5">Home</button>
-          <button className="btn side-btn w-100 py-2 my-3 fs-5">
+          <button
+            className="btn side-btn w-100 py-2 my-3 fs-5"
+            onClick={() => navigate("/")}
+          >
+            Home
+          </button>
+          <button
+            className="btn side-btn w-100 py-2 my-3 fs-5"
+            onClick={() => navigate("/renewal")}
+          >
             Renewals
           </button>
         </div>
@@ -87,7 +98,7 @@ export default function Dashboard() {
       <div className="col-sm-10 bg-light">
         <div className="py-3 row">
           <div className="col">
-            <div className="card rounded-4 border border-2">
+            <div className="card rounded-4 border border-2 border-info">
               <div className="card-body">
                 <p className="card-title fs-2">
                   <FontAwesomeIcon icon={faFileLines} /> New Renewals
@@ -99,7 +110,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="col">
-            <div className="card rounded-4 border border-2">
+            <div className="card rounded-4 border border-2 border-primary">
               <div className="card-body">
                 <p className="card-title fs-2">
                   <FontAwesomeIcon icon={faPeopleGroup} /> Current Batch
@@ -111,7 +122,7 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="col">
-            <div className="card rounded-4 border border-2">
+            <div className="card rounded-4 border border-2 border-success">
               <div className="card-body">
                 <p className="card-title fs-2">
                   <FontAwesomeIcon icon={faCircleCheck} /> Total Renewals

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router";
-import "./Renewal.css"
+import "./Renewal.css";
 export default function Renewal() {
   const navigate = useNavigate();
 
   return (
-    <div className="container p-5">
-      <div className="border p-3">
+    <div className="parent-bg p-5 vh-100">
+      <div className="container bg-light border p-3 rounded-4">
         <h4>Renewal Form</h4>
         <div className="container">
           <div className="row">
@@ -84,14 +84,24 @@ export default function Renewal() {
                 />
                 <label>Member of ICPEP Region</label>
               </div>
-              <div className="text-end mt-3">
-                <button
-                  className="btn border next-btn text-white"
-                  onClick={() => navigate("/renewal/upload-pictures")}
-                >
-                  Next
-                </button>
-              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col text-start mt-3">
+              <button
+                className="btn border back-btn fw-bold w-25"
+                onClick={() => navigate("/")}
+              >
+                Back
+              </button>
+            </div>
+            <div className="col text-end mt-3">
+              <button
+                className="btn border next-btn text-white fw-bold w-25"
+                onClick={() => navigate("/renewal/upload-pictures")}
+              >
+                Next
+              </button>
             </div>
           </div>
         </div>
