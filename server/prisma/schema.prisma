@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum MemberType {
+  CCPE
+  PCPE
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique @db.VarChar(55)
+  name      String?   @db.VarChar(255)
+  username  String    @unique @db.VarChar(55)
+  password  String    @db.VarChar(255)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model MemberName {
+  id         String    @id @default(uuid())
+  firstName  String   @db.VarChar(55)
+  middleName String?   @db.VarChar(55)
+  lastName   String   @db.VarChar(55)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade ,onDelete: Cascade)
+  memberId String @unique
+}
+
+model MemberFiles {
+  id        String    @id @default(uuid())
+  regionalCert  String    @db.VarChar(55)
+  nationalCert  String    @db.VarChar(55)
+  receipt  String    @db.VarChar(55)
+  picture  String    @db.VarChar(55)
+  signature  String    @db.VarChar(55)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade ,onDelete: Cascade)
+  memberId String @unique
+}
+
+model Member {
+  id        String    @id @default(uuid())
+  address   String   @db.VarChar(255)
+  zipCode   String   @db.VarChar(4)
+  mobileNumber String @db.VarChar(11)
+  gender    Gender
+  type      MemberType
+  dateIdValidity DateTime @db.Date
+  transactionDetails String @db.VarChar(255)
+  region    String   @db.VarChar(55)
+  batchNo   String   @db.VarChar(12)
+  amountPaid Decimal  @db.Decimal(10, 2)
+  submittedAt DateTime @db.Date
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  name MemberName?
+  files MemberFiles?
+}
