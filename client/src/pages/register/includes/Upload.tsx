@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 
-export default function UploadPictures() {
+export default function Upload() {
   const navigate = useNavigate();
 
   const currentBatchGroup = 20;
@@ -15,47 +15,23 @@ export default function UploadPictures() {
   return (
     <div className="parent-bg vh-100 p-5">
       <div className="container mt-5 bg-light border rounded-4 p-3">
-        <h4>Renewal Form</h4>
+        <h4>Register Form</h4>
         <div className="container">
           <div className="row">
             <div className="col-6">
               <div className="p-3 border border-2 rounded-3">
-                <h4>Renewal Application</h4>
-                <div className="form-check mb-3">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="pcpe"
-                    id="otherName1"
-                  />
-                  <div className="form-floating rounded-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="ICEPEPRegion"
-                      placeholder="ICEPEP Region"
-                    />
-                    <label>Enter your CCPE No.</label>
-                  </div>
-                </div>
-
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="radio"
-                    name="pcpe"
-                    id="pcpe"
-                  />
-
-                  <div className="form-floating rounded-3">
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="ICEPEPRegion"
-                      placeholder="ICEPEP Region"
-                    />
-                    <label>Enter your PCPE No.</label>
-                  </div>
+                <h4>Register Application</h4>
+                <div className="form-floating">
+                  <select
+                    className="form-select"
+                    id="typeOfMembership"
+                    aria-label="Floating label select example"
+                  >
+                    <option selected>Open this select type of registration</option>
+                      <option value="CCPE">CCPE</option>
+                      <option value="PCPE">PCPE</option>
+                  </select>
+                  <label>Type of Registration</label>
                 </div>
               </div>
 
@@ -149,7 +125,7 @@ export default function UploadPictures() {
               <div className="form-floating">
                 <select
                   className="form-select"
-                  id="gender"
+                  id="batch"
                   aria-label="Floating label select example"
                 >
                   <option selected>Open this select batch number</option>
@@ -163,13 +139,13 @@ export default function UploadPictures() {
             <div className="text-end mt-3 d-flex justify-content-between">
               <button
                 className="btn border back-btn fw-bold w-25"
-                onClick={() => navigate("/renewal")}
+                onClick={() => navigate("/register")}
               >
                 Back
               </button>
               <button
                 className="btn border next-btn text-white fw-bold w-25"
-                onClick={() => navigate("/renewal/consent")}
+                onClick={() => navigate("/register/consent")}
               >
                 Next
               </button>
