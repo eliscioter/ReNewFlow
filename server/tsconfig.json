@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                          
+    "module": "commonjs",                    
+    "lib": ["ESNext"],                     
+    "allowJs": true,
+    "outDir": "build",                          
+    "rootDir": "src",
+    "strict": true,         
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+  },
+  "files": ["node-env.d.ts"],
+  "include": ["src/**/*.ts"]
+}
