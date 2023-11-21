@@ -6,11 +6,21 @@ import Consent from "./pages/renewal/includes/Consent";
 import Register from "./pages/register/Register";
 import Upload from "./pages/register/includes/Upload";
 import ConsentRegister from "./pages/register/includes/Consent";
+import UserRenewal from "./pages/user-renews/user-renewal";
+import UserRenewalInfo from "./pages/user-renews/includes/userRenewal-Info";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Dashboard />,
+  },
+  {
+    path: "/user-renewals",
+    element: <UserRenewal />,
+  },
+  {
+    path: "/user-renewals/user-info",
+    element: <UserRenewalInfo />,
   },
   {
     path: "/renewal",
