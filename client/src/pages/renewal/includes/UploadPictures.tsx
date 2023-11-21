@@ -78,6 +78,7 @@ export default function UploadPictures() {
                     className="form-control"
                     type="file"
                     id="certificates"
+                    accept=".pdf, .png, .jpg, .jpeg, .jfif"
                     multiple
                   />
                   {/* //TODO: Change to tooltip */}
@@ -87,7 +88,12 @@ export default function UploadPictures() {
                 </div>
                 <div className="mb-3">
                   <label className="form-label fw-semibold">Receipt</label>
-                  <input className="form-control" type="file" id="receipt" />
+                  <input
+                    className="form-control"
+                    type="file"
+                    id="receipt"
+                    accept=".pdf, .png, .jpg, .jpeg, .jfif"
+                  />
                 </div>
               </div>
             </div>
@@ -121,6 +127,7 @@ export default function UploadPictures() {
                   className="form-control"
                   type="file"
                   id="NationalCertificates"
+                  accept=".pdf, .png, .jpg, .jpeg, .jfif"
                   multiple
                 />
                 {/* //TODO: Change to tooltip */}
@@ -134,7 +141,7 @@ export default function UploadPictures() {
                   className="form-control"
                   type="file"
                   id="receipt"
-                  accept=".png, .jpeg, .jpg"
+                  accept=".png, .jpeg, .jpg, .jfif"
                 />
               </div>
               <div className="form-floating mb-2">
@@ -152,7 +159,9 @@ export default function UploadPictures() {
                   id="gender"
                   aria-label="Floating label select example"
                 >
-                  <option selected>Open this select batch number</option>
+                  <option disabled selected>
+                    Open this select batch number
+                  </option>
                   {generateBatchNumber().map((batchNumber) => (
                     <option value={batchNumber}>{batchNumber}</option>
                   ))}
