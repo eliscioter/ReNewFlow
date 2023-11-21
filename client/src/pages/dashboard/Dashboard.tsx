@@ -89,7 +89,7 @@ export default function Dashboard() {
           </button>
           <button
             className="btn side-btn w-100 py-2 my-3 fs-5"
-            onClick={() => navigate("/renewal")}
+            onClick={() => navigate("/user-renewals")}
           >
             Renewals
           </button>
