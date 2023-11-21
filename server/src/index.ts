@@ -3,6 +3,8 @@ import express, { Application, urlencoded } from "express";
 import { corsMiddleware } from "./middlewares/cors";
 import { loggerMiddleware } from "./middlewares/logger";
 import { errorMiddleware } from "./middlewares/error";
+import { renewalRouter } from "./routers/renewal-router";
+import { registerRouter } from "./routers/register-router";
 
 config();
 
@@ -22,8 +24,9 @@ app.use(urlencoded({ extended: true }));
 
 app.use(corsMiddleware);
 
+app.use("/api/renew", renewalRouter);
+app.use("/api/register", registerRouter);
+
 app.use(errorMiddleware);
 
-app.listen(PORT_NO || 5000, () =>
-  console.log(`Server is running on port ${PORT_NO || 5000}`)
-);
+app.listen(PORT_NO || 5000, () => console.log(`Connection Established`));
