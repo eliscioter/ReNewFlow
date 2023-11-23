@@ -11,7 +11,7 @@ export default function UserRenewalInfo() {
         <div className="pt-5">
           <button
             className="btn side-btn w-100 py-2 my-3 fs-5"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/dashboard")}
           >
             Home
           </button>
