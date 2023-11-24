@@ -8,10 +8,15 @@ import Upload from "./pages/register/includes/Upload";
 import ConsentRegister from "./pages/register/includes/Consent";
 import UserRenewal from "./pages/user-renews/user-renewal";
 import UserRenewalInfo from "./pages/user-renews/includes/userRenewal-Info";
+import Login from "./pages/login/login";
 
 export const router = createBrowserRouter([
   {
     path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/dashboard",
     element: <Dashboard />,
   },
   {
