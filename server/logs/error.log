@@ -1,0 +1,22 @@
+{"level":"error","message":"Error: Unsupported content type: application/json","timestamp":"2023-11-24T04:12:38.982Z"}
+{"level":"error","message":"Error: Unsupported content type: application/json","timestamp":"2023-11-24T07:03:13.364Z"}
+{"level":"error","message":"Error: Unsupported content type: application/json","timestamp":"2023-11-24T07:09:06.281Z"}
+{"level":"error","message":"PrismaClientKnownRequestError: \nInvalid `prisma.receipt.create()` invocation in\nC:\\Users\\Admin\\OneDrive\\Documents\\Github repositories\\renewflow\\server\\src\\data\\renewal-data.ts:231:50\n\n  228   >\n  229 ) => {\n  230   try {\n→ 231     const created_receipt = await prisma.receipt.create(\nThe provided value for the column is too long for the column's type. Column: (not available)","timestamp":"2023-11-24T11:08:22.542Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T11:51:46.175Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T11:52:40.398Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T11:53:55.115Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T12:10:22.917Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T12:11:10.052Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T12:12:27.322Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T12:13:42.182Z"}
+{"level":"error","message":"File Size Limit Exceeded 5 MB","timestamp":"2023-11-24T12:17:49.383Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T12:19:32.820Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:25:43.501Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:26:32.485Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:27:11.757Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:28:37.787Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:29:50.348Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:31:01.570Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:32:29.223Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:33:48.801Z"}
+{"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:35:28.595Z"}
