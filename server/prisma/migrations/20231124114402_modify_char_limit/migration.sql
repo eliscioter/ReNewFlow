@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "Picture" ALTER COLUMN "picture" SET DATA TYPE VARCHAR(110);
+
+-- AlterTable
+ALTER TABLE "Receipt" ALTER COLUMN "receipt" SET DATA TYPE VARCHAR(110);
+
+-- AlterTable
+ALTER TABLE "Signature" ALTER COLUMN "signature" SET DATA TYPE VARCHAR(110);

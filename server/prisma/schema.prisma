@@ -39,15 +39,51 @@ model MemberName {
   memberId String @unique
 }
 
-model MemberFiles {
+model Picture {
   id           String    @id @default(uuid())
-  regionalCert String[]
-  nationalCert String[]
-  receipt      String    @db.VarChar(55)
-  picture      String    @db.VarChar(55)
-  signature    String    @db.VarChar(55)
+  picture      String    @db.VarChar(110)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @updatedAt
+
+  member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  memberId String @unique
+}
+
+model Receipt {
+  id        String    @id @default(uuid())
+  receipt   String    @db.VarChar(110)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  memberId String @unique
+}
+
+model Signature {
+  id         String    @id @default(uuid())
+  signature  String    @db.VarChar(110)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  memberId String @unique
+}
+
+model RegionalCertificate {
+  id              String    @id @default(uuid())
+  regionalCert    String[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
+
+  member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  memberId String @unique
+}
+
+model NationalCertificate {
+  id              String    @id @default(uuid())
+  nationalCert    String[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime? @updatedAt
 
   member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   memberId String @unique
@@ -72,5 +108,9 @@ model Member {
   updatedAt          DateTime?   @updatedAt
 
   name  MemberName?
-  files MemberFiles?
+  picture Picture?
+  receipt Receipt?
+  signature Signature?
+  regionalCert RegionalCertificate?
+  nationalCert NationalCertificate?
 }
