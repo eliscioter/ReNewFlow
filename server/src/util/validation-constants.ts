@@ -58,7 +58,7 @@ export const MAX_SUBMITTED_AT = new Date(currentYear, 11, 31);
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export const MIN_FILE_NAME_LENGTH = 2;
-export const MAX_FILE_NAME_LENGTH = 55;
+export const MAX_FILE_NAME_LENGTH = 155;
 
 export const MIN_FILE_UPLOAD = 1;
 export const MAX_FILE_UPLOAD = 5;

@@ -1,12 +1,20 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
 import { prisma } from "../config/prisma";
-import { IDType, RegisterForm } from "../types/validation-types";
-import {
-  INTERNAL_SERVER_ERROR_STATUS,
-  OK_STATUS,
-} from "../util/http-status-codes";
 import { logger } from "../middlewares/logger";
+import { RegisterForm } from "../types/validation-types";
+import {
+  OK_STATUS,
+  INTERNAL_SERVER_ERROR_STATUS,
+} from "../util/http-status-codes";
+import {
+  handleCreateName,
+  handleCreateReceipt,
+  handleCreatePicture,
+  handleCreateSignature,
+  handleCreateRegionalCert,
+  handleCreateNationalCert,
+} from "./renewal-data";
 
 export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
   try {
@@ -35,17 +43,69 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
         };
       }
 
-      const created_files = await handleCreateFiles(
+      const created_receipt = await handleCreateReceipt(
         renewal_form,
         created_member.response.id,
         prisma
       );
 
-      if (!created_files.success || !created_files.response) {
+      if (!created_receipt.success || !created_receipt.response) {
         return {
           success: false,
-          code: created_files.code,
-          error: created_files.error,
+          code: created_receipt.code,
+          error: created_receipt.error,
+        };
+      }
+      const created_picture = await handleCreatePicture(
+        renewal_form,
+        created_member.response.id,
+        prisma
+      );
+
+      if (!created_picture.success || !created_picture.response) {
+        return {
+          success: false,
+          code: created_picture.code,
+          error: created_picture.error,
+        };
+      }
+      const created_signature = await handleCreateSignature(
+        renewal_form,
+        created_member.response.id,
+        prisma
+      );
+
+      if (!created_signature.success || !created_signature.response) {
+        return {
+          success: false,
+          code: created_signature.code,
+          error: created_signature.error,
+        };
+      }
+      const created_regional_cert = await handleCreateRegionalCert(
+        renewal_form,
+        created_member.response.id,
+        prisma
+      );
+
+      if (!created_regional_cert.success || !created_regional_cert.response) {
+        return {
+          success: false,
+          code: created_regional_cert.code,
+          error: created_regional_cert.error,
+        };
+      }
+      const created_national_cert = await handleCreateNationalCert(
+        renewal_form,
+        created_member.response.id,
+        prisma
+      );
+
+      if (!created_national_cert.success || !created_national_cert.response) {
+        return {
+          success: false,
+          code: created_national_cert.code,
+          error: created_national_cert.error,
         };
       }
 
@@ -123,100 +183,6 @@ const handleCreateMember = async (
       success: false,
       code: INTERNAL_SERVER_ERROR_STATUS,
       error: "Server Process form Error",
-    };
-  }
-};
-
-export const handleCreateName = async (
-  renewal_form: RegisterForm,
-  member_id: IDType,
-  prisma: Omit<
-    PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
-    "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
-  >
-) => {
-  try {
-    const created_name = await prisma.memberName.create({
-      data: {
-        memberId: member_id,
-        firstName: renewal_form.firstName,
-        middleName: renewal_form.middleName,
-        lastName: renewal_form.lastName,
-      },
-    });
-
-    if (!created_name) {
-      return {
-        success: false,
-        code: INTERNAL_SERVER_ERROR_STATUS,
-        error: "Error processing name",
-      };
-    }
-
-    return {
-      success: true,
-      code: OK_STATUS,
-      response: created_name,
-    };
-  } catch (error) {
-    logger.log("error", `${error}`);
-
-    return {
-      success: false,
-      code: INTERNAL_SERVER_ERROR_STATUS,
-      error: "Server Create Name Error",
-    };
-  }
-};
-
-export const handleCreateFiles = async (
-  renewal_form: RegisterForm,
-  member_id: IDType,
-  prisma: Omit<
-    PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
-    "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
-  >
-) => {
-  try {
-    const regional_cert_names = Array.isArray(renewal_form.regionalCert?.files)
-      ? renewal_form.regionalCert.files.map((file) => file.name)
-      : [];
-
-    const national_cert_names = Array.isArray(renewal_form.nationalCert?.files)
-      ? renewal_form.nationalCert.files.map((file) => file.name)
-      : [];
-
-    const created_files = await prisma.memberFiles.create({
-      data: {
-        memberId: member_id,
-        regionalCert: regional_cert_names,
-        nationalCert: national_cert_names,
-        receipt: renewal_form.receipt.file.name,
-        picture: renewal_form.picture.file.name,
-        signature: renewal_form.signature.file.name,
-      },
-    });
-
-    if (!created_files) {
-      return {
-        success: false,
-        code: INTERNAL_SERVER_ERROR_STATUS,
-        error: "Error processing files",
-      };
-    }
-
-    return {
-      success: true,
-      code: OK_STATUS,
-      response: created_files,
-    };
-  } catch (error) {
-    logger.log("error", `${error}`);
-
-    return {
-      success: false,
-      code: INTERNAL_SERVER_ERROR_STATUS,
-      error: "Server Create Files Error",
     };
   }
 };

@@ -1,30 +1,30 @@
 import { z } from "zod";
-import { GenderSchema } from "./gender";
-import { MemberTypeSchema } from "./member-type";
 import {
-  MIN_DATE_ID_VALIDITY,
-  formatDateMessage,
-  MAX_DATE_ID_VALIDITY,
   MIN_NAME_LENGTH,
   MAX_NAME_LENGTH,
+  ZIP_CODE_LENGTH,
   MIN_ADDRESS_LENGTH,
   MAX_ADDRESS_LENGTH,
   MIN_BIRTH_PLACE_LENGTH,
   MAX_BIRTH_PLACE_LENGTH,
+  MOBILE_NUMBER_LENGTH,
+  MIN_TYPE_NO_LENGTH,
+  MAX_TYPE_NO_LENGTH,
   MIN_AMOUNT_PAID,
   MAX_AMOUNT_PAID,
+  MIN_DATE_ID_VALIDITY,
+  formatDateMessage,
+  MAX_DATE_ID_VALIDITY,
   MIN_TRANSACTION_DETAILS_LENGTH,
   MAX_TRANSACTION_DETAILS_LENGTH,
   MAX_REGION_LENGTH,
   MIN_SUBMITTED_AT,
   MAX_SUBMITTED_AT,
-  MOBILE_NUMBER_LENGTH,
-  ZIP_CODE_LENGTH,
-  MIN_TYPE_NO_LENGTH,
-  MAX_TYPE_NO_LENGTH,
 } from "../../util/validation-constants";
 import { BatchNumberSchema } from "./batch";
-import { FileSchema, MultipleFileSchema, PictureSchema } from "./file";
+import { GenderSchema } from "./gender";
+import { MemberTypeSchema } from "./member-type";
+import { PictureSchema, FileSchema, MultipleFileSchema } from "./file";
 
 export const RenewalSchema = z.object({
   lastName: z
@@ -92,7 +92,10 @@ export const RenewalSchema = z.object({
       message: `Amount paid must be at most ${MAX_AMOUNT_PAID}`,
     }),
   dateIdValidity: z
-    .date()
+    .date({
+      required_error: "Please add date ID validity",
+      invalid_type_error: "Date ID validity must be a date",
+    })
     .min(MIN_DATE_ID_VALIDITY, {
       message: formatDateMessage(MIN_DATE_ID_VALIDITY, "at least"),
     })
@@ -117,7 +120,10 @@ export const RenewalSchema = z.object({
     }),
   batchNo: BatchNumberSchema,
   submittedAt: z
-    .date()
+    .date({
+      required_error: "Please add submitted at date",
+      invalid_type_error: "Submitted at must be a date",
+    })
     .min(MIN_SUBMITTED_AT, {
       message: formatDateMessage(MIN_SUBMITTED_AT, "at least"),
     })
@@ -126,7 +132,7 @@ export const RenewalSchema = z.object({
     }),
   picture: PictureSchema,
   receipt: FileSchema,
+  signature: PictureSchema,
   regionalCert: MultipleFileSchema,
   nationalCert: MultipleFileSchema,
-  signature: PictureSchema,
 });

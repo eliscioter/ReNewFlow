@@ -1,11 +1,10 @@
 import { z } from "zod";
 import {
   FILE_TYPE,
-  MAX_FILE_NAME_LENGTH,
-  MAX_FILE_SIZE,
-  MAX_FILE_UPLOAD,
   MIN_FILE_NAME_LENGTH,
+  MAX_FILE_NAME_LENGTH,
   MIN_FILE_UPLOAD,
+  MAX_FILE_UPLOAD,
 } from "../../util/validation-constants";
 
 export const PictureTypeSchema = z
@@ -35,62 +34,33 @@ export const FileTypeSchema = z
     }
   );
 
-export const PictureSchema = z.object({
-  file: z.object({
-    name: z
+export const PictureSchema = z
+  .string()
+  .min(MIN_FILE_NAME_LENGTH, {
+    message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
+  })
+  .max(MAX_FILE_NAME_LENGTH, {
+    message: `File name must be at most ${MAX_FILE_NAME_LENGTH} characters long`,
+  });
+
+export const FileSchema = z.string().min(MIN_FILE_NAME_LENGTH, {
+  message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
+});
+
+export const MultipleFileSchema = z
+  .array(
+    z
       .string()
       .min(MIN_FILE_NAME_LENGTH, {
         message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
       })
       .max(MAX_FILE_NAME_LENGTH, {
         message: `File name must be at most ${MAX_FILE_NAME_LENGTH} characters long`,
-      }),
-    size: z.number().max(MAX_FILE_SIZE, {
-      message: `File size must be at most ${MAX_FILE_SIZE} MB`,
-    }),
-    type: PictureTypeSchema,
-  }),
-});
-
-export const FileSchema = z.object({
-  file: z.object({
-    name: z
-      .string()
-      .min(MIN_FILE_NAME_LENGTH, {
-        message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
       })
-      .max(MAX_FILE_NAME_LENGTH, {
-        message: `File name must be at most ${MAX_FILE_NAME_LENGTH} characters long`,
-      }),
-    size: z.number().max(MAX_FILE_SIZE, {
-      message: `File size must be at most ${MAX_FILE_SIZE} MB`,
-    }),
-    type: FileTypeSchema,
-  }),
-});
-
-export const MultipleFileSchema = z.object({
-  files: z
-    .array(
-      z.object({
-        name: z
-          .string()
-          .min(MIN_FILE_NAME_LENGTH, {
-            message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
-          })
-          .max(MAX_FILE_NAME_LENGTH, {
-            message: `File name must be at most ${MAX_FILE_NAME_LENGTH} characters long`,
-          }),
-        size: z.number().max(MAX_FILE_SIZE, {
-          message: `File size must be at most ${MAX_FILE_SIZE} MB`,
-        }),
-        type: FileTypeSchema,
-      })
-    )
-    .min(MIN_FILE_UPLOAD, {
-      message: "You must upload at least 1 file.",
-    })
-    .max(MAX_FILE_UPLOAD, {
-      message: "You can upload at most 5 files.",
-    }),
-});
+  )
+  .min(MIN_FILE_UPLOAD, {
+    message: "You must upload at least 1 file.",
+  })
+  .max(MAX_FILE_UPLOAD, {
+    message: "You can upload at most 5 files.",
+  });

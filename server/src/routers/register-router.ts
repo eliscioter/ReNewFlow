@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { submitRegistration } from "../controllers/register-controller";
+import { fileHandling } from "../middlewares/busboy";
 
 export const registerRouter = Router();
 
-registerRouter.post("/submit", submitRegistration);
+registerRouter.post("/submit",fileHandling, submitRegistration);

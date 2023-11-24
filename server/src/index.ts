@@ -1,10 +1,10 @@
 import { config } from "dotenv";
 import express, { Application, urlencoded } from "express";
 import { corsMiddleware } from "./middlewares/cors";
-import { loggerMiddleware } from "./middlewares/logger";
 import { errorMiddleware } from "./middlewares/error";
-import { renewalRouter } from "./routers/renewal-router";
+import { logger, loggerMiddleware } from "./middlewares/logger";
 import { registerRouter } from "./routers/register-router";
+import { renewalRouter } from "./routers/renewal-router";
 
 config();
 
@@ -13,7 +13,8 @@ const { CLIENT_ORIGIN, PORT_NO } = process.env;
 const app: Application = express();
 
 if (!CLIENT_ORIGIN) {
-  console.log("CLIENT_ORIGIN is not set");
+  logger.log("error", "Client Origin is not defined");
+  throw new Error("Client Origin is not defined");
 }
 
 app.use(loggerMiddleware);
