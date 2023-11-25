@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import path from "path";
-import { RenewForm, FileData, FileType } from "../types/validation-types";
+import { FileData, FileType } from "../types/validation-types";
 import Busboy from "busboy";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
@@ -12,8 +12,16 @@ import { FileTypeSchema } from "../validations/schema/file";
 import { logger } from "./logger";
 import { MAX_FILE_SIZE } from "../util/validation-constants";
 
-const save_path = (fileName: string) =>
-  path.join(__dirname, "..", "..", "assets/uploads", fileName);
+const save_path = (fileName: string) => {
+  const uploads_path = path.join(__dirname, '..', '..', 'assets', 'uploads');
+
+  if (!fs.existsSync(uploads_path)) {
+    fs.mkdirSync(uploads_path, { recursive: true });
+  }
+
+  const file_path = path.join(uploads_path, fileName);
+  return file_path;
+}
 export const fileHandling: RequestHandler = (req, res, next) => {
   try {
     const busboy = Busboy({
