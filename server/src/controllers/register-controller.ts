@@ -20,13 +20,13 @@ import { handleCreateRenewal } from "../data/renewal-data";
 import { validateRenewalForm } from "../validations/renewal-validation";
 import { IDSchema } from "../validations/schema/id";
 import { fromZodError } from "zod-validation-error";
-import { prisma } from "../config/prisma";
 
 // TODO: Delete submitted files if registration fails
 export const submitRegistration = asyncHandler(async (req, res) => {
   try {
     const register_form: FileHandlingData = req.body;
 
+    // TODO: Fix regionalCert and nationalCert to get 1 or 5 files for each field
     const updated_register_form: RegisterForm = {
       ...register_form.non_file_fields,
       picture: register_form.file_paths[0],
