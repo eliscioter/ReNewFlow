@@ -1,18 +1,12 @@
 import "./user-Renewal.css";
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import logo from "../../assets/CPECB-Logo.png";
+import { useSubmittedData } from "../../services/api/register";
 
 export default function UserRenewal() {
   const navigate = useNavigate();
 
-  const [renewals] = useState([
-    { firstName: "Bruce", lastName: "Wayne", renewalType: "CCPE", batchNo: 8 },
-    { firstName: "Clark", lastName: "Kent", renewalType: "CCPE", batchNo: 12 },
-    { firstName: "Diana", lastName: "Prince", renewalType: "PCPE", batchNo: 2 },
-    { firstName: "Barry", lastName: "Allen", renewalType: "PCPE", batchNo: 3 },
-    { firstName: "Arthur", lastName: "Curry", renewalType: "CCPE", batchNo: 7 },
-  ]);
+  const {data: registered_people} = useSubmittedData();
 
   return (
     <div className="row vh-100 p-0 m-0">
@@ -46,11 +40,11 @@ export default function UserRenewal() {
               </tr>
             </thead>
             <tbody className="fs-5">
-              {renewals.map((renewal, index) => (
-                <tr key={index} onClick={() => navigate("/user-renewals/user-info")} className="user-link">
-                  <td>{renewal.firstName}</td>
-                  <td>{renewal.lastName}</td>
-                  <td>{renewal.renewalType}</td>
+              {registered_people && registered_people.response.map((renewal) => (
+                <tr key={renewal.id} onClick={() => navigate(`/user-renewals/user-info/${renewal.id}`)} className="user-link">
+                  <td>{renewal.name.firstName}</td>
+                  <td>{renewal.name.lastName}</td>
+                  <td>{renewal.type}</td>
                   <td>{renewal.batchNo}</td>
                 </tr>
               ))}

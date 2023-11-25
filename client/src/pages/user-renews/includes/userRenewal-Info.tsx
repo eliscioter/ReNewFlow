@@ -1,8 +1,12 @@
 import { useNavigate } from "react-router";
 import logo from "../../../assets/CPECB-Logo.png";
+import { useRegisteredPersonData } from "../../../services/api/register";
+import { useParams } from "react-router-dom";
 
 export default function UserRenewalInfo() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const { data: registered_people } = useRegisteredPersonData(id || "");
 
   return (
     <div className="row vh-100 p-0 m-0">
@@ -39,7 +43,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Bruce"
+                  placeholder={registered_people?.data.name.firstName || ""}
                 />
               </div>
               <div className="col-lg-3 col-md-6 mb-3 fw-medium">
@@ -50,7 +54,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Wayne"
+                  placeholder={registered_people?.data.name.lastName || ""}
                 />
               </div>
               <div className="col-lg-2 col-md-3 mb-3 fw-medium">
@@ -61,7 +65,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Z"
+                  placeholder={registered_people?.data.name.middleName || ""}
                 />
               </div>
               <div className="col-lg-4 col-md-6 mb-3 fw-medium">
@@ -72,7 +76,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="1234 Main St, Gotham City"
+                  placeholder={registered_people?.data.address || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
@@ -83,7 +87,7 @@ export default function UserRenewalInfo() {
                   type="number"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="1669"
+                  placeholder={registered_people?.data.zipCode || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
@@ -94,7 +98,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="+63 912 345 6789"
+                  placeholder={registered_people?.data.mobileNumber || ""}
                 />
               </div>
               <div className="col-2 mb-3 fw-medium">
@@ -105,7 +109,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Male"
+                  placeholder={registered_people?.data.gender || ""}
                 />
               </div>
               <div className="col-4 mb-3 fw-medium">
@@ -116,14 +120,14 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Arkham Asylum"
+                  placeholder={registered_people?.data.birthPlace || ""}
                 />
               </div>
             </div>
             {/* Renewal Form Details */}
             <div className="row pt-5">
               <legend className="fw-bold">Renewal Form Details</legend>
-              <div className="mb-3 border borde-2 border-secondary"></div>
+              <div className="mb-3 border border-secondary"></div>
               <div className="col-2 mb-3 fw-medium">
                 <label htmlFor="disabledTextInput" className="form-label">
                   Renewal Application Type
@@ -132,18 +136,18 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="CCPE"
+                  placeholder={registered_people?.data.type || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
                 <label htmlFor="disabledTextInput" className="form-label">
-                  CCPE No.
+                  {registered_people?.data.type} No.
                 </label>
                 <input
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="1234-5678-90"
+                  placeholder={registered_people?.data.typeNo || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
@@ -154,7 +158,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Php. 1,000.00"
+                  placeholder={`Php. ${registered_people?.data.amountPaid}` || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
@@ -165,7 +169,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="08"
+                  placeholder={registered_people?.data.batchNo || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
@@ -176,7 +180,8 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="08/08/2023"
+                  // TODO: Format the date properly
+                  placeholder={registered_people?.data.dateIdValidity.toString() || ""}
                 />
               </div>
               <div className="col-6 mb-3 fw-medium">
@@ -187,7 +192,7 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Bank of Gotham, Gotham City, 08/08/2021 08:08 AM"
+                  placeholder={registered_people?.data.transactionDetails || ""}
                 />
               </div>
               <div className="col-3 mb-3 fw-medium">
@@ -198,14 +203,14 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="Metro Manila"
+                  placeholder={registered_people?.data.region || ""}
                 />
               </div>
             </div>
             {/* Attachments */}
             <div className="row pt-5">
               <legend className="fw-bold">Attachments</legend>
-              <div className="mb-3 border borde-2 border-secondary"></div>
+              <div className="mb-3 border border-secondary"></div>
               <div className="col-6 mb-3 fw-medium">
                 <label htmlFor="disabledTextInput" className="form-label">
                   Title of Regional Attended Activities (at least 2 in the last
@@ -215,7 +220,8 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="user2x2.png"
+                    // TODO: Remove the path name. Only show the file name
+                  placeholder={registered_people?.data.regionalCert.regionalCert[0] || ""}
                 />
               </div>
               <div className="col-6 mb-3 fw-medium">
@@ -227,7 +233,8 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="user2x2.png"
+                    // TODO: Remove the path name. Only show the file name
+                  placeholder={registered_people?.data.nationalCert.nationalCert[0] || ""}
                 />
               </div>
               <div className="col-2 mb-3 fw-medium">
@@ -238,7 +245,32 @@ export default function UserRenewalInfo() {
                   type="text"
                   id="disabledTextInput"
                   className="form-control"
-                  placeholder="user2x2.png"
+                    // TODO: Remove the path name. Only show the file name
+                  placeholder={registered_people?.data.picture.picture || ""}
+                />
+              </div>
+              <div className="col-2 mb-3 fw-medium">
+                <label htmlFor="disabledTextInput" className="form-label">
+                  Receipt
+                </label>
+                <input
+                  type="text"
+                  id="disabledTextInput"
+                  className="form-control"
+                    // TODO: Remove the path name. Only show the file name
+                  placeholder={registered_people?.data.receipt.receipt || ""}
+                />
+              </div>
+              <div className="col-2 mb-3 fw-medium">
+                <label htmlFor="disabledTextInput" className="form-label">
+                  Signature
+                </label>
+                <input
+                  type="text"
+                  id="disabledTextInput"
+                  className="form-control"
+                    // TODO: Remove the path name. Only show the file name
+                  placeholder={registered_people?.data.signature.signature || ""}
                 />
               </div>
             </div>
