@@ -75,6 +75,7 @@ export const submitRenewal = asyncHandler(async (req, res) => {
       picture: renewal_form.file_paths[0],
       receipt: renewal_form.file_paths[1],
       signature: renewal_form.file_paths[2],
+      // TODO: Fix this to get 1 or 5 files for each field
       regionalCert: renewal_form.file_paths.slice(3, 4),
       nationalCert: renewal_form.file_paths.slice(4, 5),
     };
