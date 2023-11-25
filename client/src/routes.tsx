@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
     element: <UserRenewal />,
   },
   {
-    path: "/user-renewals/user-info",
+    path: "/user-renewals/user-info/:id",
     element: <UserRenewalInfo />,
   },
   {
