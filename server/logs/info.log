@@ -21,3 +21,6 @@
 {"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:32:29.224Z"}
 {"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:33:48.802Z"}
 {"level":"error","message":"TypeError: Cannot read properties of undefined (reading '0')","timestamp":"2023-11-24T14:35:28.596Z"}
+{"level":"error","message":"PrismaClientKnownRequestError: Transaction API error: Unable to start a transaction in the given time.","timestamp":"2023-11-25T03:24:48.848Z"}
+{"level":"error","message":"PrismaClientKnownRequestError: Transaction API error: Unable to start a transaction in the given time.","timestamp":"2023-11-25T03:32:32.453Z"}
+{"level":"error","message":"PrismaClientKnownRequestError: \nInvalid `prisma.member.findMany()` invocation in\nC:\\Users\\Admin\\OneDrive\\Documents\\Github repositories\\renewflow\\server\\src\\data\\register-data.ts:199:46\n\n  196 \n  197 export const handleFetchRegisteredPeople = async () => {\n  198   try {\n→ 199     const fetched_data = await prisma.member.findMany(\nTimed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)","timestamp":"2023-11-25T06:59:51.294Z"}
