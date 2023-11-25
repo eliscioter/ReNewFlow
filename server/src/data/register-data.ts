@@ -15,11 +15,15 @@ import {
   handleCreateRegionalCert,
   handleCreateNationalCert,
 } from "./renewal-data";
+import { generateTypeNo } from "../helpers/generate-id";
 
 export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
-      const created_member = await handleCreateMember(renewal_form, prisma);
+      const created_member = await handleCreateRegisterMember(
+        renewal_form,
+        prisma
+      );
 
       if (!created_member.success || !created_member.response) {
         return {
@@ -132,6 +136,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
     };
   } catch (error) {
     logger.log("error", `${error}`);
+    // TODO: Catch PrismaClientKnownRequestError: Transaction API error: Unable to start a transaction in the given time.
     return {
       success: false,
       code: INTERNAL_SERVER_ERROR_STATUS,
@@ -139,7 +144,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
     };
   }
 };
-const handleCreateMember = async (
+const handleCreateRegisterMember = async (
   renewal_form: RegisterForm,
   prisma: Omit<
     PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
@@ -155,6 +160,7 @@ const handleCreateMember = async (
         mobileNumber: renewal_form.mobileNumber,
         gender: renewal_form.gender,
         type: renewal_form.type,
+        typeNo: generateTypeNo(),
         dateIdValidity: renewal_form.dateIdValidity,
         transactionDetails: renewal_form.transactionDetails,
         region: renewal_form.region,
@@ -183,6 +189,111 @@ const handleCreateMember = async (
       success: false,
       code: INTERNAL_SERVER_ERROR_STATUS,
       error: "Server Process form Error",
+    };
+  }
+};
+
+export const handleFetchRegisteredPeople = async () => {
+  try {
+    const fetched_data = await prisma.member.findMany({
+      select: {
+        id: true,
+        type: true,
+        batchNo: true,
+        name: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    if (!fetched_data) {
+      return {
+        success: false,
+        code: INTERNAL_SERVER_ERROR_STATUS,
+        error: "Error fetching data",
+      };
+    }
+
+    return {
+      success: true,
+      code: OK_STATUS,
+      response: fetched_data,
+    };
+  } catch (error) {
+    logger.log("error", `${error}`);
+    return {
+      success: false,
+      code: INTERNAL_SERVER_ERROR_STATUS,
+      error: "Server Fetch Registered People Error",
+    };
+  }
+};
+
+export const handleFetchSubmittedData = async (id: string) => {
+  try {
+    const fetched_data = await prisma.member.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        name: {
+          select: {
+            firstName: true,
+            lastName: true,
+            middleName: true,
+          },
+        },
+        picture: {
+          select: {
+            picture: true,
+          },
+        },
+        receipt: {
+          select: {
+            receipt: true,
+          },
+        },
+        signature: {
+          select: {
+            signature: true,
+          },
+        },
+        regionalCert: {
+          select: {
+            regionalCert: true,
+          },
+        },
+        nationalCert: {
+          select: {
+            nationalCert: true,
+          },
+        },
+      },
+    });
+
+    if (!fetched_data) {
+      return {
+        success: false,
+        code: INTERNAL_SERVER_ERROR_STATUS,
+        error: "Error fetching data",
+      };
+    }
+
+    return {
+      success: true,
+      code: OK_STATUS,
+      response: fetched_data,
+    };
+  } catch (error) {
+    logger.log("error", `${error}`);
+    return {
+      success: false,
+      code: INTERNAL_SERVER_ERROR_STATUS,
+      error: "Server Fetch Submitted Data Error",
     };
   }
 };
