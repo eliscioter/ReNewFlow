@@ -3,6 +3,8 @@ import { IDSchema } from "../validations/schema/id";
 import { RegisterSchema } from "../validations/schema/register";
 import { RenewalSchema } from "../validations/schema/renewal";
 import { MemberTypeSchema } from "../validations/schema/member-type";
+import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import { GenderSchema } from "../validations/schema/gender";
 
 export type BatchNumber = `Batch ${number}`;
 
@@ -13,6 +15,10 @@ export type RenewForm = z.infer<typeof RenewalSchema>;
 export type RegisterForm = z.infer<typeof RegisterSchema>;
 
 export type PersonRegistration = z.infer<typeof MemberTypeSchema>;
+
+export type Gender = z.infer<typeof GenderSchema>;
+
+export type MemberType = z.infer<typeof MemberTypeSchema>
 
 export type RegisteredPeople = {
   response: {
@@ -51,4 +57,11 @@ export type FileHandlingData = {
     "picture" | "receipt" | "signature" | "regionalCert" | "nationalCert"
   >;
   file_paths: string[];
+};
+
+export type RegisterProps = RegisterForm & {
+  register: UseFormRegister<RegisterForm>;
+  errors: FieldErrors<RegisterForm>;
+  setValue: UseFormSetValue<RegisterForm>
+  updateData: (data: Partial<RegisterForm>) => void;
 };

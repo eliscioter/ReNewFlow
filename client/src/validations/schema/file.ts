@@ -1,10 +1,10 @@
 import { z } from "zod";
 import {
   FILE_TYPE,
-  MIN_FILE_NAME_LENGTH,
-  MAX_FILE_NAME_LENGTH,
   MIN_FILE_UPLOAD,
   MAX_FILE_UPLOAD,
+  MAX_FILE_SIZE,
+  MAX_FILE_NAME_LENGTH,
 } from "../../util/validation-constants";
 
 export const PictureTypeSchema = z
@@ -34,33 +34,31 @@ export const FileTypeSchema = z
     }
   );
 
-export const PictureSchema = z
-  .string()
-  .min(MIN_FILE_NAME_LENGTH, {
-    message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
-  })
-  .max(MAX_FILE_NAME_LENGTH, {
-    message: `File name must be at most ${MAX_FILE_NAME_LENGTH} characters long`,
+  export const FileSchema = z.custom<File>((file) => {
+    return new Promise((resolve, reject) => {
+      if (!(file instanceof File)) {
+        reject(new Error('Invalid file type'));
+      } else {
+        if (file.size > MAX_FILE_SIZE) {
+          reject(new Error('File size must be less than 5MB'));
+        } else if (file.name.length > MAX_FILE_NAME_LENGTH) {
+          reject(new Error('File name is too long'));
+        } else {
+          resolve(file);
+        }
+      }
+    });
   });
 
-export const FileSchema = z.string().min(MIN_FILE_NAME_LENGTH, {
-  message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
-});
-
 export const MultipleFileSchema = z
-  .array(
-    z
-      .string()
-      .min(MIN_FILE_NAME_LENGTH, {
-        message: `File name must be at least ${MIN_FILE_NAME_LENGTH} characters long`,
-      })
-      .max(MAX_FILE_NAME_LENGTH, {
-        message: `File name must be at most ${MAX_FILE_NAME_LENGTH} characters long`,
-      })
-  )
+  .array(z.instanceof(File))
   .min(MIN_FILE_UPLOAD, {
     message: "You must upload at least 1 file.",
   })
   .max(MAX_FILE_UPLOAD, {
     message: "You can upload at most 5 files.",
-  });
+  })
+  .refine(
+    (files) => files.every((file) => file.size < MAX_FILE_SIZE),
+    "File size must be less than 5MB"
+  );

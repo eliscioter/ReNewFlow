@@ -1,113 +1,129 @@
-import { useNavigate } from "react-router";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { RegisterForm } from "../../types/validation-types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterSchema } from "../../validations/schema/register";
+import { toast } from "sonner";
+import { useMultiStepForm } from "../../hooks/multistep-form";
+import BasicDetails from "./includes/BasicDetails";
+import Upload from "./includes/Upload";
+import ConsentRegister from "./includes/Consent";
+import { useState } from "react";
+import { Register } from "@tanstack/react-query";
+
+interface CustomFile extends File {
+    file: File | null;
+    name: string;
+    size: number;
+    type: string;
+}
+
+const initial_state: RegisterForm = {
+  lastName: "",
+  firstName: "",
+  middleName: "",
+  zipCode: "",
+  address: "",
+  birthPlace: "",
+  mobileNumber: "",
+  gender: "MALE",
+  type: "CCPE",
+  amountPaid: 0,
+  dateIdValidity: new Date(),
+  transactionDetails: "",
+  region: "",
+  batchNo: "Batch 1",
+  submittedAt: new Date(),
+  picture: {
+    file: null,
+    name: "",
+    size: 0,
+    type: "",
+  } as CustomFile,
+  receipt: {
+    file: null,
+    name: "",
+    size: 0,
+    type: "",
+  } as CustomFile,
+  signature: {
+    file: null,
+    name: "",
+    size: 0,
+    type: "",
+  } as CustomFile,
+
+  regionalCert: [] as CustomFile[],
+  nationalCert: [] as CustomFile[],
+};
+
 export default function Register() {
-  const navigate = useNavigate();
+  const {
+    formState: { errors },
+    register,
+    handleSubmit,
+    setValue,
+  } = useForm<RegisterForm>({
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const [data, setData] = useState<RegisterForm>(initial_state);
+
+  const updateData = (data: Partial<RegisterForm>) =>
+    setData((prev) => ({ ...prev, ...data }));
+
+  const { step, is_first_step, is_last_step, nextStep, prevStep } =
+    useMultiStepForm([
+      <BasicDetails
+        {...data}
+        register={register}
+        errors={errors}
+        setValue={setValue}
+        updateData={updateData}
+      />,
+      <Upload
+        {...data}
+        register={register}
+        errors={errors}
+        setValue={setValue}
+        updateData={updateData}
+      />,
+      <ConsentRegister
+        {...data}
+        register={register}
+        errors={errors}
+        setValue={setValue}
+        updateData={updateData}
+      />,
+    ]);
+
+  const handleSubmitRegistration: SubmitHandler<RegisterForm> = (data) => {
+    console.log(data);
+    toast.success("Successfully submitted form");
+  };
+
+  const handleError: SubmitErrorHandler<RegisterForm> = (errors) => {
+    if (!is_last_step) return nextStep();
+
+    console.log(errors);
+    toast.error("Error in submitting form");
+  };
 
   return (
-    <div className="parent-bg p-5 vh-100">
-      <div className="container bg-light border p-3 rounded-4">
-        <h4>Registration Form</h4>
-        <div className="container">
-          <div className="row">
-            <div className="col-6">
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="lastName"
-                  placeholder="Dela Cruz"
-                />
-                <label>Last Name</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="middleName"
-                  placeholder="Santos"
-                />
-                <label>Middle Name</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input
-                  type="number"
-                  className="form-control"
-                  id="zipCode"
-                  placeholder="1106"
-                />
-                <label>Zip Code</label>
-              </div>
-              <div className="form-floating">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="mobileNumber"
-                  placeholder="09123456789"
-                />
-                <label>Philippine Cell Phone Number</label>
-              </div>
-            </div>
-            <div className="col-6">
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="firstName"
-                  placeholder="juan"
-                />
-                <label>First Name</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="address"
-                  placeholder="your address"
-                />
-                <label>Philippine Permanent Mailing Address</label>
-              </div>
-              <div className="form-floating mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="birthPlace"
-                  placeholder="Manila City"
-                />
-                <label>Place of Birth</label>
-              </div>
-              <div className="form-floating">
-                <select
-                  className="form-select"
-                  id="gender"
-                  aria-label="Floating label select example"
-                >
-                  <option selected>Open this select gender</option>
-                  <option value="MALE">Male</option>
-                  <option value="FEMALE">Female</option>
-                </select>
-                <label>Gender</label>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col text-start mt-3">
-              <button
-                className="btn border back-btn fw-bold w-25"
-                onClick={() => navigate("/")}
-              >
-                Back
-              </button>
-            </div>
-            <div className="col text-end mt-3">
-              <button
-                className="btn border next-btn text-white fw-bold w-25"
-                onClick={() => navigate("/register/upload-pictures")}
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <form
+        encType="multipart/form-data"
+        onSubmit={handleSubmit(handleSubmitRegistration, handleError)}
+      >
+        {step}
+        {!is_first_step && (
+          <button className="btn bg-secondary" type="button" onClick={prevStep}>
+            Back
+          </button>
+        )}
+        <button className="btn bg-primary" type="submit">
+          {is_last_step ? "Submit" : "Next"}
+        </button>
+      </form>
+    </>
   );
 }

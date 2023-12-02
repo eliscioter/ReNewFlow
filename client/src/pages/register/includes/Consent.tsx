@@ -1,7 +1,24 @@
 import { useNavigate } from "react-router";
+import { RegisterProps } from "../../../types/validation-types";
 
-export default function ConsentRegister() {
+export default function ConsentRegister({
+  register,
+  errors,
+  setValue,
+  updateData,
+  signature,
+  dateIdValidity,
+}: RegisterProps) {
   const navigate = useNavigate();
+
+  const handleSignatureUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setValue("signature", file);
+      updateData({ signature: file });
+    }
+  };
+
   return (
     <div className="parent-bg vh-100 p-5">
       <div className="container bg-light border rounded-4 p-3">
@@ -18,6 +35,7 @@ export default function ConsentRegister() {
             Certification Application/Renewal.
           </p>
         </div>
+
         <div className="container d-flex justify-content-evenly">
           <div className="mb-3">
             <label className="form-label fw-bold">Upload Signature</label>
@@ -26,7 +44,17 @@ export default function ConsentRegister() {
               type="file"
               id="receipt"
               accept=".png, .jpeg, .jpg"
+              onChange={(e) => handleSignatureUpload(e)}
             />
+            {signature.name && (
+              <div>
+                <h6>Selected Signature:</h6>
+                <p>{signature.name}</p>
+              </div>
+            )}
+            {errors.signature && (
+              <span className="text-danger">{errors.signature.message}</span>
+            )}
           </div>
           <div className="mb-3">
             <label className="form-label fw-bold">Date</label>
@@ -34,7 +62,15 @@ export default function ConsentRegister() {
               className="RenewForm-Input form-control"
               type="date"
               id="date"
+              {...register("submittedAt", { valueAsDate: true })}
+              value={dateIdValidity.toISOString().split("T")[0]}
+              onChange={(e) =>
+                updateData({ dateIdValidity: new Date(e.target.value) })
+              }
             />
+            {errors.submittedAt && (
+              <span className="text-danger">{errors.submittedAt.message}</span>
+            )}
           </div>
         </div>
         <div className="text-end mt-3 d-flex justify-content-between">
@@ -46,7 +82,7 @@ export default function ConsentRegister() {
           </button>
           <button
             className="btn border next-btn text-white fw-bold w-25"
-            onClick={() => navigate("/")}
+            type="submit"
           >
             Submit
           </button>

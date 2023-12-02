@@ -24,7 +24,7 @@ import {
 import { BatchNumberSchema } from "./batch";
 import { GenderSchema } from "./gender";
 import { MemberTypeSchema } from "./member-type";
-import { PictureSchema, FileSchema, MultipleFileSchema } from "./file";
+import { FileSchema, MultipleFileSchema } from "./file";
 
 export const RenewalSchema = z.object({
   lastName: z
@@ -130,9 +130,9 @@ export const RenewalSchema = z.object({
     .max(MAX_SUBMITTED_AT, {
       message: formatDateMessage(MAX_SUBMITTED_AT, "at most"),
     }),
-  picture: PictureSchema,
+  picture: FileSchema,
   receipt: FileSchema,
-  signature: PictureSchema,
+  signature: FileSchema,
   regionalCert: MultipleFileSchema,
   nationalCert: MultipleFileSchema,
 });
