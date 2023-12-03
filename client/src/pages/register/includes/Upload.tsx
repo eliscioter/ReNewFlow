@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router";
 import {
   BatchNumber,
   MemberType,
   RegisterProps,
 } from "../../../types/validation-types";
+import { CURRENT_BATCH_GROUP } from "../../../util/validation-constants";
 
 export default function Upload({
   register,
@@ -21,11 +21,10 @@ export default function Upload({
   region,
   batchNo,
 }: RegisterProps) {
-  const navigate = useNavigate();
-  const currentBatchGroup = 20;
+
   const generateBatchNumber = () => {
     const batchNumbers = [];
-    for (let batchNumber = 1; batchNumber <= currentBatchGroup; batchNumber++) {
+    for (let batchNumber = 1; batchNumber <= CURRENT_BATCH_GROUP; batchNumber++) {
       batchNumbers.push(`Batch ${batchNumber}`);
     }
     return batchNumbers;
@@ -294,13 +293,11 @@ export default function Upload({
             <div className="text-end mt-3 d-flex justify-content-between">
               <button
                 className="btn border back-btn fw-bold w-25"
-                onClick={() => navigate("/register")}
               >
                 Back
               </button>
               <button
                 className="btn border next-btn text-white fw-bold w-25"
-                onClick={() => navigate("/register/consent")}
               >
                 Next
               </button>
