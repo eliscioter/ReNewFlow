@@ -1,5 +1,5 @@
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { RegisterForm } from "../../types/validation-types";
+import { RegisterForm, initial_state } from "../../types/validation-types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterSchema } from "../../validations/schema/register";
 import { toast } from "sonner";
@@ -9,52 +9,8 @@ import Upload from "./includes/Upload";
 import ConsentRegister from "./includes/Consent";
 import { useState } from "react";
 import { Register } from "@tanstack/react-query";
+import { useSubmitRegistration } from "../../services/api/register";
 
-interface CustomFile extends File {
-    file: File | null;
-    name: string;
-    size: number;
-    type: string;
-}
-
-const initial_state: RegisterForm = {
-  lastName: "",
-  firstName: "",
-  middleName: "",
-  zipCode: "",
-  address: "",
-  birthPlace: "",
-  mobileNumber: "",
-  gender: "MALE",
-  type: "CCPE",
-  amountPaid: 0,
-  dateIdValidity: new Date(),
-  transactionDetails: "",
-  region: "",
-  batchNo: "Batch 1",
-  submittedAt: new Date(),
-  picture: {
-    file: null,
-    name: "",
-    size: 0,
-    type: "",
-  } as CustomFile,
-  receipt: {
-    file: null,
-    name: "",
-    size: 0,
-    type: "",
-  } as CustomFile,
-  signature: {
-    file: null,
-    name: "",
-    size: 0,
-    type: "",
-  } as CustomFile,
-
-  regionalCert: [] as CustomFile[],
-  nationalCert: [] as CustomFile[],
-};
 
 export default function Register() {
   const {
@@ -67,6 +23,8 @@ export default function Register() {
   });
 
   const [data, setData] = useState<RegisterForm>(initial_state);
+
+  const submit_registration = useSubmitRegistration();
 
   const updateData = (data: Partial<RegisterForm>) =>
     setData((prev) => ({ ...prev, ...data }));
@@ -97,7 +55,37 @@ export default function Register() {
     ]);
 
   const handleSubmitRegistration: SubmitHandler<RegisterForm> = (data) => {
-    console.log(data);
+    const form_data = new FormData();
+    
+    form_data.append("picture", data.picture as Blob);
+    form_data.append("receipt", data.receipt as Blob);
+    form_data.append("signature", data.signature as Blob);
+    data.regionalCert.forEach((file) =>
+      form_data.append("regionalCert", file as Blob)
+    );
+    data.nationalCert.forEach((file) =>
+      form_data.append("nationalCert", file as Blob)
+    );
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (
+        ![
+          "picture",
+          "receipt",
+          "signature",
+          "regionalCert",
+          "nationalCert",
+        ].includes(key) &&
+        value !== null && 
+        value !== undefined &&
+        value !== "" &&
+        !((Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value === ''))
+      ) {
+        form_data.append(key, value as string);
+      }
+    });
+    
+    submit_registration.mutateAsync(form_data);
     toast.success("Successfully submitted form");
   };
 
