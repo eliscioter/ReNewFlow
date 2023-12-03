@@ -65,3 +65,49 @@ export type RegisterProps = RegisterForm & {
   setValue: UseFormSetValue<RegisterForm>
   updateData: (data: Partial<RegisterForm>) => void;
 };
+
+interface CustomFile extends File {
+  file: File | null;
+  name: string;
+  size: number;
+  type: string;
+}
+
+export const initial_state: RegisterForm = {
+  lastName: "",
+  firstName: "",
+  middleName: "",
+  zipCode: "",
+  address: "",
+  birthPlace: "",
+  mobileNumber: "",
+  gender: "MALE",
+  type: "CCPE",
+  amountPaid: 0,
+  dateIdValidity: new Date(),
+  transactionDetails: "",
+  region: "",
+  batchNo: "Batch 1",
+  submittedAt: new Date(),
+  picture: {
+    file: null,
+    name: "",
+    size: 0,
+    type: "",
+  } as CustomFile,
+  receipt: {
+    file: null,
+    name: "",
+    size: 0,
+    type: "",
+  } as CustomFile,
+  signature: {
+    file: null,
+    name: "",
+    size: 0,
+    type: "",
+  } as CustomFile,
+
+  regionalCert: [] as CustomFile[],
+  nationalCert: [] as CustomFile[],
+};
