@@ -2,6 +2,7 @@ import { z } from "zod";
 import { IDSchema } from "../validations/schema/id";
 import { RegisterSchema } from "../validations/schema/register";
 import { RenewalSchema } from "../validations/schema/renewal";
+import { UserSchema } from "../validations/schema/user";
 
 export type BatchNumber = `Batch ${number}`;
 
@@ -27,3 +28,9 @@ export type FileHandlingData = {
   >;
   file_paths: string[];
 };
+
+export type MemberRenewedMonthCount = {
+  [month_name in string]: number;
+};
+
+export type UserType = z.infer<typeof UserSchema>;

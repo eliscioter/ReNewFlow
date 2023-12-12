@@ -4,9 +4,11 @@ import { router } from "./routes";
 import { Toaster } from "sonner";
 
 export default function App() {
+
   return (
     <>
       <Toaster position="top-right" />
+    
       <RouterProvider router={router} />;
     </>
   );

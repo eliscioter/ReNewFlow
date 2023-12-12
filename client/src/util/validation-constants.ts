@@ -1,20 +1,20 @@
-export const GENDERS = {
+export const GENDERS = Object.freeze({
   MALE: "MALE",
   FEMALE: "FEMALE",
-} as const;
+} as const);
 
-export const MEMBER_TYPE = {
+export const MEMBER_TYPE = Object.freeze({
   CCPE: "CCPE",
   PCPE: "PCPE",
-} as const;
+} as const);
 
-export const FILE_TYPE = {
+export const FILE_TYPE = Object.freeze({
   PNG: "image/png",
   JPG: "image/jpg",
   JPEG: "image/jpeg",
   JFIF: "image/jfif",
   PDF: "application/pdf",
-} as const;
+} as const);
 
 export const MIN_NAME_LENGTH = 2;
 export const MAX_NAME_LENGTH = 50;

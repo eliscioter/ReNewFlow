@@ -3,8 +3,14 @@ import { IDSchema } from "../validations/schema/id";
 import { RegisterSchema } from "../validations/schema/register";
 import { RenewalSchema } from "../validations/schema/renewal";
 import { MemberTypeSchema } from "../validations/schema/member-type";
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormResetField,
+  UseFormSetValue,
+} from "react-hook-form";
 import { GenderSchema } from "../validations/schema/gender";
+import { UserSchema } from "../validations/schema/user";
 
 export type BatchNumber = `Batch ${number}`;
 
@@ -18,7 +24,7 @@ export type PersonRegistration = z.infer<typeof MemberTypeSchema>;
 
 export type Gender = z.infer<typeof GenderSchema>;
 
-export type MemberType = z.infer<typeof MemberTypeSchema>
+export type MemberType = z.infer<typeof MemberTypeSchema>;
 
 export type RegisteredPeople = {
   response: {
@@ -33,10 +39,9 @@ export type OtherDetails = {
   picture: Pick<RegisterForm, "picture">;
   signature: Pick<RegisterForm, "signature">;
   receipt: Pick<RegisterForm, "receipt">;
-  regionalCert:Pick<RegisterForm, "regionalCert">;
-  nationalCert:  Pick<RegisterForm, "nationalCert">;
-
-}
+  regionalCert: Pick<RegisterForm, "regionalCert">;
+  nationalCert: Pick<RegisterForm, "nationalCert">;
+};
 export type RegisteredPerson = {
   data: RenewForm & OtherDetails;
 };
@@ -59,55 +64,47 @@ export type FileHandlingData = {
   file_paths: string[];
 };
 
-export type RegisterProps = RegisterForm & {
-  register: UseFormRegister<RegisterForm>;
-  errors: FieldErrors<RegisterForm>;
-  setValue: UseFormSetValue<RegisterForm>
-  updateData: (data: Partial<RegisterForm>) => void;
-};
+export type RegisterProps = RegisterForm &
+  Partial<{ typeNo: string }> & {
+    register: UseFormRegister<RegisterForm & Partial<{ typeNo: string }>>;
+    errors: FieldErrors<RegisterForm & Partial<{ typeNo: string }>>;
+    setValue: UseFormSetValue<RegisterForm & Partial<{ typeNo: string }>>;
+    updateData: (
+      data: Partial<RegisterForm & Partial<{ typeNo: string }>>
+    ) => void;
+    resetField?: UseFormResetField<RegisterForm & Partial<{ typeNo: string }>>;
+    pathname?: string;
+  };
 
-interface CustomFile extends File {
+export interface CustomFile extends File {
   file: File | null;
   name: string;
   size: number;
   type: string;
 }
 
-export const initial_state: RegisterForm = {
-  lastName: "",
-  firstName: "",
-  middleName: "",
-  zipCode: "",
-  address: "",
-  birthPlace: "",
-  mobileNumber: "",
-  gender: "MALE",
-  type: "CCPE",
-  amountPaid: 0,
-  dateIdValidity: new Date(),
-  transactionDetails: "",
-  region: "",
-  batchNo: "Batch 1",
-  submittedAt: new Date(),
-  picture: {
-    file: null,
-    name: "",
-    size: 0,
-    type: "",
-  } as CustomFile,
-  receipt: {
-    file: null,
-    name: "",
-    size: 0,
-    type: "",
-  } as CustomFile,
-  signature: {
-    file: null,
-    name: "",
-    size: 0,
-    type: "",
-  } as CustomFile,
-
-  regionalCert: [] as CustomFile[],
-  nationalCert: [] as CustomFile[],
+export type GenderDemographics = {
+  data: {
+    male: number;
+    female: number;
+  };
 };
+
+export type RenewedDemographics = Partial<{
+  data: {
+    January: number;
+    February: number;
+    March: number;
+    April: number;
+    May: number;
+    June: number;
+    July: number;
+    August: number;
+    September: number;
+    October: number;
+    November: number;
+    December: number;
+  };
+}>;
+
+export type UserType = z.infer<typeof UserSchema>;

@@ -4,6 +4,8 @@ import { corsMiddleware } from "./middlewares/cors";
 import { errorMiddleware } from "./middlewares/error";
 import { logger, loggerMiddleware } from "./middlewares/logger";
 import { registerRouter } from "./routers/register-router";
+import { demographicsRouter } from "./routers/demographics-router";
+import { userRouter } from "./routers/user-router";
 
 config();
 
@@ -27,6 +29,8 @@ app.use(urlencoded({ extended: true }));
 app.use(corsMiddleware);
 
 app.use("/api/register", registerRouter);
+app.use("/api/demographics", demographicsRouter);
+app.use("/api/user", userRouter)
 
 app.use(errorMiddleware);
 

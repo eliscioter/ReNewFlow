@@ -1,25 +1,31 @@
 import Dashboard from "./pages/dashboard/Dashboard";
-import Renewal from "./pages/renewal/Renewal";
 import { createBrowserRouter } from "react-router-dom";
-import UploadPictures from "./pages/renewal/includes/UploadPictures";
-import Consent from "./pages/renewal/includes/Consent";
 import Register from "./pages/register/Register";
 import UserRenewal from "./pages/user-renews/user-renewal";
 import UserRenewalInfo from "./pages/user-renews/includes/userRenewal-Info";
 import Login from "./pages/login/login";
+import SideBar from "./components/sidebar/SideBar";
+
+
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/login",
     element: <Login />,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard />,
-  },
-  {
-    path: "/user-renewals",
-    element: <UserRenewal />,
+    path: "/",
+    element: <SideBar />,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "user-renewals",
+        element: <UserRenewal />,
+      },
+    ],
   },
   {
     path: "/user-renewals/user-info/:id",
@@ -27,19 +33,10 @@ export const router = createBrowserRouter([
   },
   {
     path: "/renewal",
-    element: <Renewal />,
-  },
-  {
-    path: "/renewal/upload-pictures",
-    element: <UploadPictures />,
-  },
-  {
-    path: "/renewal/consent",
-    element: <Consent />,
+    element: <Register />,
   },
   {
     path: "/register",
     element: <Register />,
   },
-  
 ]);

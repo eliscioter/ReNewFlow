@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import logo from "../../../assets/CPECB-Logo.png";
-import { useRegisteredPersonData } from "../../../services/api/register";
 import { useParams } from "react-router-dom";
+import { useRegisteredPersonData } from "../../../services/api/demographics";
 
 export default function UserRenewalInfo() {
   const navigate = useNavigate();

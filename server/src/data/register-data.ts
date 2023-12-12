@@ -16,6 +16,7 @@ import {
   handleCreateNationalCert,
 } from "./renewal-data";
 import { generateTypeNo } from "../helpers/generate-id";
+import { ActionTaken } from "../util/validation-constants";
 
 export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
   try {
@@ -167,9 +168,10 @@ const handleCreateRegisterMember = async (
         batchNo: renewal_form.batchNo,
         amountPaid: renewal_form.amountPaid,
         submittedAt: renewal_form.submittedAt,
+        actionTaken: ActionTaken.REGISTERED,
       },
     });
-
+    
     if (!created_form) {
       return {
         success: false,
@@ -189,111 +191,6 @@ const handleCreateRegisterMember = async (
       success: false,
       code: INTERNAL_SERVER_ERROR_STATUS,
       error: "Server Process form Error",
-    };
-  }
-};
-
-export const handleFetchRegisteredPeople = async () => {
-  try {
-    const fetched_data = await prisma.member.findMany({
-      select: {
-        id: true,
-        type: true,
-        batchNo: true,
-        name: {
-          select: {
-            firstName: true,
-            lastName: true,
-          },
-        },
-      },
-      orderBy: { createdAt: "asc" },
-    });
-
-    if (!fetched_data) {
-      return {
-        success: false,
-        code: INTERNAL_SERVER_ERROR_STATUS,
-        error: "Error fetching data",
-      };
-    }
-
-    return {
-      success: true,
-      code: OK_STATUS,
-      response: fetched_data,
-    };
-  } catch (error) {
-    logger.log("error", `${error}`);
-    return {
-      success: false,
-      code: INTERNAL_SERVER_ERROR_STATUS,
-      error: "Server Fetch Registered People Error",
-    };
-  }
-};
-
-export const handleFetchSubmittedData = async (id: string) => {
-  try {
-    const fetched_data = await prisma.member.findUnique({
-      where: {
-        id: id,
-      },
-      include: {
-        name: {
-          select: {
-            firstName: true,
-            lastName: true,
-            middleName: true,
-          },
-        },
-        picture: {
-          select: {
-            picture: true,
-          },
-        },
-        receipt: {
-          select: {
-            receipt: true,
-          },
-        },
-        signature: {
-          select: {
-            signature: true,
-          },
-        },
-        regionalCert: {
-          select: {
-            regionalCert: true,
-          },
-        },
-        nationalCert: {
-          select: {
-            nationalCert: true,
-          },
-        },
-      },
-    });
-
-    if (!fetched_data) {
-      return {
-        success: false,
-        code: INTERNAL_SERVER_ERROR_STATUS,
-        error: "Error fetching data",
-      };
-    }
-
-    return {
-      success: true,
-      code: OK_STATUS,
-      response: fetched_data,
-    };
-  } catch (error) {
-    logger.log("error", `${error}`);
-    return {
-      success: false,
-      code: INTERNAL_SERVER_ERROR_STATUS,
-      error: "Server Fetch Submitted Data Error",
     };
   }
 };

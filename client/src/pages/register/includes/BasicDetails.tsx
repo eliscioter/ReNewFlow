@@ -16,10 +16,6 @@ export default function BasicDetails({
   gender,
 }: RegisterProps) {
   return (
-    <div className="parent-bg p-5 vh-100">
-      <div className="container bg-light border p-3 rounded-4">
-        <h4>Registration Form</h4>
-        <div className="container">
           <div className="row">
             <div className="col-6">
               <div className="form-floating mb-3">
@@ -161,27 +157,5 @@ export default function BasicDetails({
               </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col text-start mt-3">
-              <button
-                className="btn border back-btn fw-bold w-25"
-               
-              >
-                Back
-              </button>
-            </div>
-            <div className="col text-end mt-3">
-              <button
-                className="btn border next-btn text-white fw-bold w-25"
-               
-                type="submit"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }

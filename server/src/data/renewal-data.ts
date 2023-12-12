@@ -4,12 +4,13 @@ import { prisma } from "../config/prisma";
 import { logger } from "../middlewares/logger";
 import { RenewForm, IDType, RegisterForm } from "../types/validation-types";
 import { OK_STATUS, INTERNAL_SERVER_ERROR_STATUS } from "../util/http-status-codes";
+import { ActionTaken } from "../util/validation-constants";
 
-
+// TODO: Renewal should update not create
 export const handleCreateRenewal = async (renewal_form: RenewForm) => {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
-      const created_member = await handleCreateMember(renewal_form, prisma);
+      const created_member = await handleCreateRenewMember(renewal_form, prisma);
 
       if (!created_member.success || !created_member.response) {
         return {
@@ -129,7 +130,7 @@ export const handleCreateRenewal = async (renewal_form: RenewForm) => {
     };
   }
 };
-const handleCreateMember = async (
+const handleCreateRenewMember = async (
   renewal_form: RenewForm,
   prisma: Omit<
     PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
@@ -144,6 +145,7 @@ const handleCreateMember = async (
         zipCode: renewal_form.zipCode,
         mobileNumber: renewal_form.mobileNumber,
         gender: renewal_form.gender,
+        type: renewal_form.type,
         typeNo: renewal_form.typeNo,
         dateIdValidity: renewal_form.dateIdValidity,
         transactionDetails: renewal_form.transactionDetails,
@@ -151,6 +153,7 @@ const handleCreateMember = async (
         batchNo: renewal_form.batchNo,
         amountPaid: renewal_form.amountPaid,
         submittedAt: renewal_form.submittedAt,
+        actionTaken: ActionTaken.RENEWED,
       },
     });
 

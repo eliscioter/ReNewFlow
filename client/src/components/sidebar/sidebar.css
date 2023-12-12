@@ -1,0 +1,15 @@
+.logo {
+  height: 8em;
+  width: 9em;
+  aspect-ratio: 1/1;
+  padding-top: 0.5em;
+}
+
+.sidebar {
+  background-color: #fffcfc;
+}
+
+.side-btn:hover {
+  color: white !important;
+  background-color: #1e6091;
+}

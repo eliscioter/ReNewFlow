@@ -17,9 +17,15 @@ enum MemberType {
   PCPE
 }
 
+enum ActionType {
+  REGISTERED
+  RENEWED
+}
+
 model User {
   id        String    @id @default(uuid())
-  email     String    @unique @db.VarChar(55)
+  // TODO: make email not optional
+  email     String?    @unique @db.VarChar(55)
   name      String?   @db.VarChar(255)
   username  String    @unique @db.VarChar(55)
   password  String    @db.VarChar(255)
@@ -40,10 +46,10 @@ model MemberName {
 }
 
 model Picture {
-  id           String    @id @default(uuid())
-  picture      String    @db.VarChar(110)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @updatedAt
+  id        String    @id @default(uuid())
+  picture   String    @db.VarChar(110)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   memberId String @unique
@@ -60,30 +66,30 @@ model Receipt {
 }
 
 model Signature {
-  id         String    @id @default(uuid())
-  signature  String    @db.VarChar(110)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+  id        String    @id @default(uuid())
+  signature String    @db.VarChar(110)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   memberId String @unique
 }
 
 model RegionalCertificate {
-  id              String    @id @default(uuid())
-  regionalCert    String[]
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime? @updatedAt
+  id           String    @id @default(uuid())
+  regionalCert String[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 
   member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   memberId String @unique
 }
 
 model NationalCertificate {
-  id              String    @id @default(uuid())
-  nationalCert    String[]
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime? @updatedAt
+  id           String    @id @default(uuid())
+  nationalCert String[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 
   member   Member @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   memberId String @unique
@@ -104,13 +110,14 @@ model Member {
   batchNo            String      @db.VarChar(12)
   amountPaid         Decimal     @db.Decimal(10, 2)
   submittedAt        DateTime    @db.Date
+  actionTaken        ActionType
   createdAt          DateTime    @default(now())
   updatedAt          DateTime?   @updatedAt
 
-  name  MemberName?
-  picture Picture?
-  receipt Receipt?
-  signature Signature?
+  name         MemberName?
+  picture      Picture?
+  receipt      Receipt?
+  signature    Signature?
   regionalCert RegionalCertificate?
   nationalCert NationalCertificate?
 }

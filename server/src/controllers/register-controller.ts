@@ -1,14 +1,10 @@
 import asyncHandler from "express-async-handler";
 import {
   handleCreateRegistration,
-  handleFetchRegisteredPeople,
-  handleFetchSubmittedData,
 } from "../data/register-data";
 import { logger } from "../middlewares/logger";
 import {
-  BAD_REQUEST_STATUS,
   INTERNAL_SERVER_ERROR_STATUS,
-  OK_STATUS,
 } from "../util/http-status-codes";
 import { validateRegisterForm } from "../validations/register-validation";
 import {
@@ -18,8 +14,6 @@ import {
 } from "../types/validation-types";
 import { handleCreateRenewal } from "../data/renewal-data";
 import { validateRenewalForm } from "../validations/renewal-validation";
-import { IDSchema } from "../validations/schema/id";
-import { fromZodError } from "zod-validation-error";
 
 // TODO: Delete submitted files if registration fails
 export const submitRegistration = asyncHandler(async (req, res) => {
@@ -104,51 +98,5 @@ export const submitRenewal = asyncHandler(async (req, res) => {
     res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ message: "Server Submit Renewal Error" });
-  }
-});
-
-export const fetchRegisteredPeople = asyncHandler(async (_, res) => {
-  try {
-    const fetched_data = await handleFetchRegisteredPeople();
-
-    const response = fetched_data.success
-    ? fetched_data.response
-    : fetched_data.error;
-      
-    res.status(fetched_data.code).json({ response });
-  } catch (error) {
-    logger.log("error", `${error}`);
-    res
-      .status(INTERNAL_SERVER_ERROR_STATUS)
-      .json({ message: "Server Fetch Registered People Error" });
-  }
-});
-
-export const fetchSubmittedData = asyncHandler(async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const validate_id = IDSchema.safeParse(id);
-
-    if (!validate_id.success) {
-      res
-        .status(BAD_REQUEST_STATUS)
-        .json({ message: fromZodError(validate_id.error) });
-      return;
-    }
-
-    const fetch_data = await handleFetchSubmittedData(validate_id.data);
-
-    if (!fetch_data.success) {
-      res.status(fetch_data.code).json({ message: fetch_data.error });
-      return;
-    }
-
-    res.status(fetch_data.code).json({ data: fetch_data.response });
-  } catch (error) {
-    logger.log("error", `${error}`);
-    res
-      .status(INTERNAL_SERVER_ERROR_STATUS)
-      .json({ message: "Server Fetch Submitted Data Error" });
   }
 });
