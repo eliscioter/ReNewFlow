@@ -16,13 +16,13 @@ import {
   handleCreateNationalCert,
 } from "./renewal-data";
 import { generateTypeNo } from "../helpers/generate-id";
-import { ActionTaken } from "../util/validation-constants";
+import { ActionTaken, CURRENT_BATCH } from "../util/validation-constants";
 
-export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
+export const handleCreateRegistration = async (register_form: RegisterForm) => {
   try {
     const transaction = await prisma.$transaction(async (prisma) => {
       const created_member = await handleCreateRegisterMember(
-        renewal_form,
+        register_form,
         prisma
       );
 
@@ -35,7 +35,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
       }
 
       const created_name = await handleCreateName(
-        renewal_form,
+        register_form,
         created_member.response.id,
         prisma
       );
@@ -49,7 +49,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
       }
 
       const created_receipt = await handleCreateReceipt(
-        renewal_form,
+        register_form,
         created_member.response.id,
         prisma
       );
@@ -62,7 +62,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
         };
       }
       const created_picture = await handleCreatePicture(
-        renewal_form,
+        register_form,
         created_member.response.id,
         prisma
       );
@@ -75,7 +75,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
         };
       }
       const created_signature = await handleCreateSignature(
-        renewal_form,
+        register_form,
         created_member.response.id,
         prisma
       );
@@ -88,7 +88,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
         };
       }
       const created_regional_cert = await handleCreateRegionalCert(
-        renewal_form,
+        register_form,
         created_member.response.id,
         prisma
       );
@@ -101,7 +101,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
         };
       }
       const created_national_cert = await handleCreateNationalCert(
-        renewal_form,
+        register_form,
         created_member.response.id,
         prisma
       );
@@ -146,7 +146,7 @@ export const handleCreateRegistration = async (renewal_form: RegisterForm) => {
   }
 };
 const handleCreateRegisterMember = async (
-  renewal_form: RegisterForm,
+  register_form: RegisterForm,
   prisma: Omit<
     PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
     "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends"
@@ -155,19 +155,20 @@ const handleCreateRegisterMember = async (
   try {
     const created_form = await prisma.member.create({
       data: {
-        address: renewal_form.address,
-        birthPlace: renewal_form.birthPlace,
-        zipCode: renewal_form.zipCode,
-        mobileNumber: renewal_form.mobileNumber,
-        gender: renewal_form.gender,
-        type: renewal_form.type,
+        address: register_form.address,
+        birthPlace: register_form.birthPlace,
+        zipCode: register_form.zipCode,
+        mobileNumber: register_form.mobileNumber,
+        email: register_form.email,
+        gender: register_form.gender,
+        type: register_form.type,
         typeNo: generateTypeNo(),
-        dateIdValidity: renewal_form.dateIdValidity,
-        transactionDetails: renewal_form.transactionDetails,
-        region: renewal_form.region,
-        batchNo: renewal_form.batchNo,
-        amountPaid: renewal_form.amountPaid,
-        submittedAt: renewal_form.submittedAt,
+        dateIdValidity: register_form.dateIdValidity,
+        transactionDetails: register_form.transactionDetails,
+        region: register_form.region,
+        batchNo: CURRENT_BATCH,
+        amountPaid: register_form.amountPaid,
+        submittedAt: register_form.submittedAt,
         actionTaken: ActionTaken.REGISTERED,
       },
     });

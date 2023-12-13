@@ -25,7 +25,7 @@ enum ActionType {
 model User {
   id        String    @id @default(uuid())
   // TODO: make email not optional
-  email     String?    @unique @db.VarChar(55)
+  email     String?   @unique @db.VarChar(55)
   name      String?   @db.VarChar(255)
   username  String    @unique @db.VarChar(55)
   password  String    @db.VarChar(255)
@@ -101,9 +101,10 @@ model Member {
   birthPlace         String      @db.VarChar(55)
   zipCode            String      @db.VarChar(4)
   mobileNumber       String      @db.VarChar(11)
+  email              String      @unique @db.VarChar(55)
   gender             Gender
   type               MemberType?
-  typeNo             String?     @db.VarChar(55)
+  typeNo             String?     @unique @db.VarChar(55)
   dateIdValidity     DateTime    @db.Date
   transactionDetails String      @db.VarChar(255)
   region             String      @db.VarChar(55)

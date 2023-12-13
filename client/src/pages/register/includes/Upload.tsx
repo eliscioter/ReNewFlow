@@ -279,31 +279,33 @@ export default function Upload({
             <span className="text-danger">{errors.region.message}</span>
           )}
         </div>
-        <div className="form-floating">
-          <select
-            className="form-select"
-            id="batch"
-            aria-label="Floating label select example"
-            {...register("batchNo")}
-            value={batchNo}
-            onChange={(e) =>
-              updateData({ batchNo: e.target.value as BatchNumber })
-            }
-          >
-            <option defaultValue="Batch 1">
-              Open this select batch number
-            </option>
-            {generateBatchNumber().map((batchNumber, index) => (
-              <option key={index} value={batchNumber}>
-                {batchNumber}
+        {pathname === "/renewal" && (
+          <div className="form-floating">
+            <select
+              className="form-select"
+              id="batch"
+              aria-label="Floating label select example"
+              {...register("batchNo")}
+              value={batchNo}
+              onChange={(e) =>
+                updateData({ batchNo: e.target.value as BatchNumber })
+              }
+            >
+              <option defaultValue="Batch 1">
+                Open this select batch number
               </option>
-            ))}
-          </select>
-          <label>Batch No.</label>
-          {errors.batchNo && (
-            <span className="text-danger">{errors.batchNo.message}</span>
-          )}
-        </div>
+              {generateBatchNumber().map((batchNumber, index) => (
+                <option key={index} value={batchNumber}>
+                  {batchNumber}
+                </option>
+              ))}
+            </select>
+            <label>Batch No.</label>
+            {errors.batchNo && (
+              <span className="text-danger">{errors.batchNo.message}</span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

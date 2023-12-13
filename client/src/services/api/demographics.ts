@@ -9,10 +9,15 @@ import {
   RenewedDemographics,
 } from "../../types/validation-types";
 
-export const useSubmittedData = () =>
+export const useRegisteredPeople = () =>
   useQuery<RegisteredPeople, AxiosError>({
-    queryKey: ["submitted-data"],
+    queryKey: ["registered-data"],
     queryFn: async () => (await api.get(`/demographics/fetch/registered`)).data,
+  });
+export const useRenewalPeople = () =>
+  useQuery<RegisteredPeople, AxiosError>({
+    queryKey: ["renewal-data"],
+    queryFn: async () => (await api.get(`/demographics/fetch/renewal`)).data,
   });
 
 export const useRegisteredPersonData = (id: IDType) =>

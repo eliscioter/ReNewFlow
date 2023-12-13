@@ -41,6 +41,11 @@ export default function SideBar() {
                   </a>
                 </li>
                 <li className="nav-item side-btn w-100">
+                  <a className="nav-link" href="/user-registers">
+                    Registers
+                  </a>
+                </li>
+                <li className="nav-item side-btn w-100">
                   <a className="nav-link" href="/user-renewals">
                     Renewals
                   </a>

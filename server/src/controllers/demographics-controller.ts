@@ -7,21 +7,35 @@ import {
   OK_STATUS,
 } from "../util/http-status-codes";
 import { IDSchema } from "../validations/schema/id";
-import { prisma } from "../config/prisma";
-import { OK, number } from "zod";
 import {
   handleFetchAllRenewalsCount,
   handleFetchGenderDemographics,
   handleFetchRegisterCount,
   handleFetchRegisteredPeople,
+  handleFetchRenewalPeople,
   handleFetchRenewalsCount,
   handleFetchSubmittedData,
 } from "../data/demographics-data";
-import { MemberRenewedMonthCount } from "../types/validation-types";
 
 export const fetchRegisteredPeople = asyncHandler(async (_, res) => {
   try {
     const fetched_data = await handleFetchRegisteredPeople();
+
+    const response = fetched_data.success
+      ? fetched_data.response
+      : fetched_data.error;
+
+    res.status(fetched_data.code).json({ response });
+  } catch (error) {
+    logger.log("error", `${error}`);
+    res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ message: "Server Fetch Registered People Error" });
+  }
+});
+export const fetchRenewalPeople = asyncHandler(async (_, res) => {
+  try {
+    const fetched_data = await handleFetchRenewalPeople();
 
     const response = fetched_data.success
       ? fetched_data.response

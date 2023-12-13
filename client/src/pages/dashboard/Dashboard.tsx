@@ -106,7 +106,7 @@ export default function Dashboard() {
                 <FontAwesomeIcon icon={faFileLines} /> New Renewals
               </p>
               <p className="card-text text-center fs-1">
-                <span>{new_renewals_count}</span>
+                <span>{new_renewals_count || 0}</span>
               </p>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
                 <FontAwesomeIcon icon={faPeopleGroup} /> New Register
               </p>
               <p className="card-text fs-1 text-center">
-                <span>{new_register_count}</span>
+                <span>{new_register_count || 0}</span>
               </p>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function Dashboard() {
                 <FontAwesomeIcon icon={faCircleCheck} /> Total Renewals
               </p>
               <p className="card-text fs-1 text-center">
-                <span>{all_register_count}</span>
+                <span>{all_register_count || 0}</span>
               </p>
             </div>
           </div>

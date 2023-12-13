@@ -11,6 +11,51 @@ import { CURRENT_MONTH, CURRENT_YEAR } from "../util/validation-constants";
 export const handleFetchRegisteredPeople = async () => {
   try {
     const fetched_data = await prisma.member.findMany({
+      where: {
+        actionTaken: "REGISTERED",
+      },
+      select: {
+        id: true,
+        type: true,
+        batchNo: true,
+        name: {
+          select: {
+            firstName: true,
+            lastName: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "asc" },
+    });
+
+    if (!fetched_data) {
+      return {
+        success: false,
+        code: INTERNAL_SERVER_ERROR_STATUS,
+        error: "Error fetching data",
+      };
+    }
+
+    return {
+      success: true,
+      code: OK_STATUS,
+      response: fetched_data,
+    };
+  } catch (error) {
+    logger.log("error", `${error}`);
+    return {
+      success: false,
+      code: INTERNAL_SERVER_ERROR_STATUS,
+      error: "Server Fetch Registered People Error",
+    };
+  }
+};
+export const handleFetchRenewalPeople = async () => {
+  try {
+    const fetched_data = await prisma.member.findMany({
+      where: {
+        actionTaken: "RENEWED",
+      },
       select: {
         id: true,
         type: true,

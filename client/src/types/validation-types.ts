@@ -65,14 +65,24 @@ export type FileHandlingData = {
 };
 
 export type RegisterProps = RegisterForm &
-  Partial<{ typeNo: string }> & {
-    register: UseFormRegister<RegisterForm & Partial<{ typeNo: string }>>;
-    errors: FieldErrors<RegisterForm & Partial<{ typeNo: string }>>;
-    setValue: UseFormSetValue<RegisterForm & Partial<{ typeNo: string }>>;
+  Partial<{ typeNo: string; batchNo: BatchNumber }> & {
+    register: UseFormRegister<
+      RegisterForm & Partial<{ typeNo: string; batchNo: BatchNumber }>
+    >;
+    errors: FieldErrors<
+      RegisterForm & Partial<{ typeNo: string; batchNo: BatchNumber }>
+    >;
+    setValue: UseFormSetValue<
+      RegisterForm & Partial<{ typeNo: string; batchNo: BatchNumber }>
+    >;
     updateData: (
-      data: Partial<RegisterForm & Partial<{ typeNo: string }>>
+      data: Partial<
+        RegisterForm & Partial<{ typeNo: string; batchNo: BatchNumber }>
+      >
     ) => void;
-    resetField?: UseFormResetField<RegisterForm & Partial<{ typeNo: string }>>;
+    resetField?: UseFormResetField<
+      RegisterForm & Partial<{ typeNo: string; batchNo: BatchNumber }>
+    >;
     pathname?: string;
   };
 

@@ -144,6 +144,7 @@ const handleCreateRenewMember = async (
         birthPlace: renewal_form.birthPlace,
         zipCode: renewal_form.zipCode,
         mobileNumber: renewal_form.mobileNumber,
+        email: renewal_form.email,
         gender: renewal_form.gender,
         type: renewal_form.type,
         typeNo: renewal_form.typeNo,

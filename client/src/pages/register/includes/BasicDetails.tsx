@@ -9,6 +9,7 @@ export default function BasicDetails({
   lastName,
   middleName,
   firstName,
+  email,
   zipCode,
   mobileNumber,
   address,
@@ -98,6 +99,23 @@ export default function BasicDetails({
                 {errors.firstName && (
                   <span className="text-danger">
                     {errors.firstName.message}
+                  </span>
+                )}
+              </div>
+              <div className="form-floating mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="juan@email.com"
+                  {...register("email")}
+                  value={email}
+                  onChange={(e) => updateData({ email: e.target.value })}
+                />
+                <label>Email</label>
+                {errors.email && (
+                  <span className="text-danger">
+                    {errors.email.message}
                   </span>
                 )}
               </div>

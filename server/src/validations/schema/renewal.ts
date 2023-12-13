@@ -73,6 +73,9 @@ export const RenewalSchema = z.object({
   mobileNumber: z.string().regex(new RegExp(`^\\d{${MOBILE_NUMBER_LENGTH}}$`), {
     message: `Mobile number must be exactly ${MOBILE_NUMBER_LENGTH} digits long`,
   }),
+  email: z.string().email({
+    message: "Please provide a valid email address",
+  }),
   gender: GenderSchema,
   type: MemberTypeSchema,
   typeNo: z

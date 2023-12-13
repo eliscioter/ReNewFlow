@@ -1,11 +1,17 @@
+import { useLocation } from "react-router-dom";
+import {
+  useRegisteredPeople,
+  useRenewalPeople,
+} from "../../services/api/demographics";
 import "./user-Renewal.css";
 import { useNavigate } from "react-router";
-import { useSubmittedData } from "../../services/api/demographics";
 
 export default function UserRenewal() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const { data: registered_people } = useSubmittedData();
+  const { data: renewed } = useRenewalPeople();
+  const { data: registered } = useRegisteredPeople();
 
   return (
     <div className="bg-light p-2">
@@ -21,21 +27,37 @@ export default function UserRenewal() {
             </tr>
           </thead>
           <tbody className="fs-5">
-            {registered_people &&
-              registered_people.response.map((renewal) => (
-                <tr
-                  key={renewal.id}
-                  onClick={() =>
-                    navigate(`/user-renewals/user-info/${renewal.id}`)
-                  }
-                  className="user-link"
-                >
-                  <td>{renewal.name.firstName}</td>
-                  <td>{renewal.name.lastName}</td>
-                  <td>{renewal.type}</td>
-                  <td>{renewal.batchNo}</td>
-                </tr>
-              ))}
+            {pathname === "/user-renewals"
+              ? renewed &&
+                renewed.response.map((renewal) => (
+                  <tr
+                    key={renewal.id}
+                    onClick={() =>
+                      navigate(`/user-renewals/user-info/${renewal.id}`)
+                    }
+                    className="user-link"
+                  >
+                    <td>{renewal.name.firstName}</td>
+                    <td>{renewal.name.lastName}</td>
+                    <td>{renewal.type}</td>
+                    <td>{renewal.batchNo}</td>
+                  </tr>
+                ))
+              : registered &&
+                registered.response.map((register) => (
+                  <tr
+                    key={register.id}
+                    onClick={() =>
+                      navigate(`/user-registers/user-info/${register.id}`)
+                    }
+                    className="user-link"
+                  >
+                    <td>{register.name.firstName}</td>
+                    <td>{register.name.lastName}</td>
+                    <td>{register.type}</td>
+                    <td>{register.batchNo}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
